@@ -21,11 +21,6 @@ const Phonebook = () => {
   const addPerson = event => {
     event.preventDefault();
 
-    if (newName === "" || newNumber === "") {
-      alert("Name and Number must be provided");
-      return;
-    }
-
     const newPerson = {
       name: newName,
       number: newNumber,
@@ -40,15 +35,20 @@ const Phonebook = () => {
       return;
     }
 
-    personServices.createPerson(newPerson).then(createdPerson => {
-      setPersons([...persons, createdPerson]);
+    personServices
+      .createPerson(newPerson)
+      .then(createdPerson => {
+        setPersons([...persons, createdPerson]);
 
-      // Briefly show successful creation notification
-      alert(`Added ${createdPerson.name}`, "success");
+        // Briefly show successful creation notification
+        alert(`Added ${createdPerson.name}`, "success");
 
-      setNewName("");
-      setNewNumber("");
-    });
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch(error => {
+        alert(error.response.data.error);
+      });
   };
 
   // Update phone number of preexisting user
