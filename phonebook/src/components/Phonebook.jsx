@@ -69,13 +69,7 @@ const Phonebook = () => {
           // Briefly show successful update message
           alert(`Updated ${updatedPerson.name}`, "success");
         })
-        .catch(_ => {
-          alert(
-            `Information of ${newPerson.name} has already been removed from the server`,
-            "error"
-          );
-          personServices.getAll().then(peopleData => setPersons(peopleData));
-        });
+        .catch(error => alert(error.response.data.error));
 
       setNewName("");
       setNewNumber("");
